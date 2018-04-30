@@ -154,7 +154,7 @@ async def download_collection(bc, parallel, status_file=None, file_format=None):
 
     async def download_item(item):
         nonlocal done, failed
-        res = await bc.download_item(item, file_format)
+        res, md5hash = await bc.download_item(item, file_format)
         done += 1
 
         if res is None:
@@ -165,6 +165,7 @@ async def download_collection(bc, parallel, status_file=None, file_format=None):
             del item_dict['download_url']
             item_dict['file'] = res
             item_dict['quality'] = file_format
+            item_dict['md5'] = md5hash
             status[item.id] = item_dict
 
     async def queue_download():

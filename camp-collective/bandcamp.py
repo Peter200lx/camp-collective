@@ -11,6 +11,8 @@ from requests.cookies import cookiejar_from_dict
 from requests import Session
 from bs4 import BeautifulSoup
 
+from hashlib import md5
+
 
 class Bandcamp:
     FORMATS = {
@@ -108,7 +110,7 @@ class Bandcamp:
 
         if data is None or data['digital_items'][0] is None or 'downloads' not in data['digital_items'][0]:
             self.download_status[item.id]['status'] = 'failed'
-            return None
+            return None, None
 
         info = data['digital_items'][0]
 
@@ -164,17 +166,20 @@ class Bandcamp:
         self.download_status[item.id]['downloaded_size'] = 0
 
         def writeFileToFile(resp, filename):
+            hasher = md5()
             with open(filename, 'wb') as fd:
                 for chunk in resp.iter_content(chunk_size=128):
+                    hasher.update(chunk)
                     self.download_status[item.id]['downloaded_size'] += len(
                         chunk)
                     fd.write(chunk)
+            return hasher.hexdigest()
 
         loop = asyncio.get_event_loop()
-        await loop.run_in_executor(None, writeFileToFile, resp, file)
+        md5hash = await loop.run_in_executor(None, writeFileToFile, resp, file)
         self.download_status[item.id]['status'] = 'done'
 
-        return file
+        return file, md5hash
 
     async def get_page_data(self, url):
         resp = await self.session.get(url)
