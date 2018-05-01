@@ -165,7 +165,7 @@ class Bandcamp:
             resp.headers.get('content-length'))
         self.download_status[item.id]['downloaded_size'] = 0
 
-        def writeFileToFile(resp, filename):
+        def write_music_to_file(resp, filename):
             hasher = md5()
             with open(filename, 'wb') as fd:
                 for chunk in resp.iter_content(chunk_size=128):
@@ -176,7 +176,7 @@ class Bandcamp:
             return hasher.hexdigest()
 
         loop = asyncio.get_event_loop()
-        md5hash = await loop.run_in_executor(None, writeFileToFile, resp, file)
+        md5hash = await loop.run_in_executor(None, write_music_to_file, resp, file)
         self.download_status[item.id]['status'] = 'done'
 
         return file, md5hash

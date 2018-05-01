@@ -19,7 +19,7 @@ Options:
     --status=<status-file> -s  Status file to save the status in of downloaded releases, so we don't over do it
     --format=<file-format> -f  File format to download (%s) [default: flac]
 """ % ', '.join(Bandcamp.FORMATS.keys())
-data = docopt(DOC)
+CLI_ARGS = docopt(DOC)
 
 
 async def _main(data):
@@ -200,5 +200,5 @@ async def download_collection(bc, parallel, status_file=None, file_format=None):
 
 
 loop = asyncio.get_event_loop()
-loop.run_until_complete(_main(data))
+loop.run_until_complete(_main(CLI_ARGS))
 loop.close()
