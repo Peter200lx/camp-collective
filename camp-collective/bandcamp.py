@@ -1,17 +1,17 @@
-import json
-
-from random import random
-import datetime
-import re
-from urllib.parse import unquote
 import asyncio
-from .collection import Collection
-import os
-from requests.cookies import cookiejar_from_dict
-from requests import Session
-from bs4 import BeautifulSoup
-
+import datetime
 from hashlib import md5
+import json
+import os
+from random import random
+import re
+
+from bs4 import BeautifulSoup
+from requests import Session
+from requests.cookies import cookiejar_from_dict
+from urllib.parse import unquote
+
+from .collection import Collection
 
 
 class Bandcamp:

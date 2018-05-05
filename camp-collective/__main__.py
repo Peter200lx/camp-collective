@@ -1,8 +1,8 @@
-from docopt import docopt
-from os.path import isfile
-
 import asyncio
+from os.path import isfile
 import json
+
+from docopt import docopt
 from colorama import Fore, ansi
 
 from .bandcamp import Bandcamp
