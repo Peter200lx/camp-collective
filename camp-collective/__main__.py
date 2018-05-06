@@ -161,7 +161,8 @@ async def download_collection(bc, parallel, status_file=None, file_format=None):
             failed += 1
             failed_items.append(item)
         else:
-            item_dict = item.as_dict()
+            # noinspection PyProtectedMember
+            item_dict = item._asdict()  # pylint: disable=W0212
             del item_dict['download_url']
             item_dict['file'] = res
             item_dict['quality'] = file_format

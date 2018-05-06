@@ -61,21 +61,20 @@ class Bandcamp:
 
         collection_seed = await self.get_page_data(self.user['url'])
 
-        collection = Collection()
-        collection.amount = collection_seed['collection_data']['item_count']
-        collection.last_token = collection_seed['collection_data']['last_token']
+        collection = Collection(collection_seed['collection_data']['item_count'])
         collection.extend(collection_seed['item_cache']['collection'].values(),
                           collection_seed['collection_data']['redownload_urls'])
 
         has_more = not collection_seed['collection_data']['small_collection']
+        last_token = collection_seed['collection_data']['last_token']
 
         while full and has_more:
-            data = await self.get_collection_part(self.user['id'], last_token=collection.last_token, count=100)
+            data = await self.get_collection_part(self.user['id'], last_token=last_token, count=100)
 
             if data is None:
                 break
 
-            collection.last_token = data['last_token']
+            last_token = data['last_token']
             collection.extend(data['items'], data['redownload_urls'])
             has_more = data['more_available']
 
