@@ -168,7 +168,7 @@ class Bandcamp:
             hasher = md5()
             with open(filename, 'wb') as fd:
                 try:
-                    for chunk in resp.iter_content(chunk_size=128):
+                    for chunk in resp.iter_content(chunk_size=1024 * 1024):
                         hasher.update(chunk)
                         self.download_status[item.id]['downloaded_size'] += len(
                             chunk)
