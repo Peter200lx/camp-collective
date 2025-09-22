@@ -40,7 +40,7 @@ class Bandcamp:
         self.download_directory = download_directory if download_directory is not None else os.getcwd()
 
     async def load_user_data(self):
-        data = await self.get_page_data('https://bandcamp.com')
+        data = await self.get_page_data('https://bandcamp.com/settings')
 
         if data is None:
             return False
