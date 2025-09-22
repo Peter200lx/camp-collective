@@ -31,7 +31,7 @@ async def _main(data):
         if len(kv) == 1:
             kv.append(None)
 
-        return kv
+        return kv[0].strip(), kv[1]
 
     cookie_dict = dict([parse_cookie(cookie_comb)
                         for cookie_comb in cookie_string.split(';')])
